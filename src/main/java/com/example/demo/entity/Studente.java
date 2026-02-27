@@ -1,8 +1,7 @@
 //specifichiamo il package in cui si trova la classe Studentw
-package com.example.demo.entity;
+ package com.example.demo.entity;
 
 import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,14 +16,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+
+
+
+
+
+
 @Entity // indichiamo che questa classe è un'entità JPA
+@Table(name = "studente")// indichiamo il nome della tabella nel database a cui questa classe è associata se non ce la crea automaticamente
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-
-@Table(name = "studente") // indichiamo il nome della tabella nel database a cui questa classe è associata
-                          // se non ce la crea automaticamente
+@AllArgsConstructor 
 
 public class Studente {
     // definiamo i campi della classe Studente, che corrispondono alle colonne della
