@@ -1,20 +1,25 @@
-//specifichiamo il package in cui si trova la classe Studente
+//specifichiamo il package in cui si trova la classe Studentw
 package com.example.demo.entity;
 
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity // indichiamo che questa classe è un'entità JPA
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -35,14 +40,12 @@ public class Studente {
     // indichiamo che questo campo rappresenta la colonna "matricola" nella tabella
     // del database, con una lunghezza massima di 6 caratteri e un vincolo di
     // unicità
+
+    // ====DATI IDENTIFICATIVI====//
     private String matricola; // definiamo un campo matricola di tipo String che rappresenta la matricola
                               // dello studente
-
-    @Column(length = 100)
-    private String nome;
-
-    @Column(length = 100)
-    private String cognome;
+    @Column(length = 16, unique = true, nullable = false)
+    private String codiceFiscale;
 
     @Column(length = 100, unique = true)
     private String email;
@@ -50,11 +53,32 @@ public class Studente {
     @Column(length = 50, unique = true)
     private String username;
 
+    // ====DATI ANAGRAFICI====//
+    @Column(length = 100)
+    private String nome;
+
+    @Column(length = 100)
+    private String cognome;
+
+    @Column()
+    private java.time.LocalDate dataNascita;
+
+    @Column(length = 100)
+    private String luogoNascita;
+
+    // ====CONTTATTI====//
+    @Column(length = 20)
+    private String telefono;
+
+    // ====CREDENZIALI====//
     @Column(length = 255)
     private String password;
 
-    @Column() // timestamp LocaldDateTime per indicare la data e l'ora di iscrizione dello
-              // studente non serve specificare
+    // ====STATO E TIMESTAMP====//
+    
+    // timestamp LocaldDateTime per indicare la data e l'ora di iscrizione dello
+    // studente non serve specificare
+    @Column() 
     private LocalDateTime dataIscrizione;
 
     @Column(length = 20)
@@ -62,21 +86,20 @@ public class Studente {
 
     @Column()
     private boolean iscritto;
-
+    
+    // ====GESTIONE CONCORRENZA ====//
     @Column()
     @jakarta.persistence.Version // indichiamo che questo campo rappresenta la versione dell'entità, utilizzato
-    private int versione;   // per la gestione della concorrenza ottimistica
+    private int versione; // per la gestione della concorrenza
 
-    @Column(length = 16, unique = true, nullable = false)
-    private String codiceFiscale;
-    
-    @Column()
-    private java.time.LocalDate dataNascita;
+    // ====RELAZIONI====//
+    // indichiamo che questa è una relazione ManyToOne, ovvero che molti studenti
+    // possono essere iscritti a un solo corso di laurea
+    @ManyToOne(fetch = FetchType.LAZY)
+    // definiamo una relazione ManyToOne con la classe CorsoLaurea, indicando che
+    // ogni studente è iscritto a un solo corso di laurea, ma un corso di
+    // laurea può avere più studenti iscritti
+    @JoinColumn(name = "id_corso_laurea")
+    private CorsoLaurea corsoLaurea; 
 
-    @Column(length = 100)
-    private String luogoNascita;
-
-    @Column(length = 20)
-    private String telefono;
-// definiamo i costruttori, i getter e i setter per i campi della classe Studente
 }
