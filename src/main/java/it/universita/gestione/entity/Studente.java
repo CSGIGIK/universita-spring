@@ -1,5 +1,5 @@
 //specifichiamo il package in cui si trova la classe Studentw
- package com.example.demo.entity;
+ package it.universita.gestione.entity;
 
 import java.time.LocalDateTime;
 import jakarta.persistence.Column;
