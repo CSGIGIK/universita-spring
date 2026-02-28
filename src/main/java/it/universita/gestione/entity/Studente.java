@@ -2,6 +2,7 @@
  package it.universita.gestione.entity;
 
 import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -86,15 +87,15 @@ public class Studente {
     private LocalDateTime dataIscrizione;
 
     @Column(length = 20)
-    private String ruolo;
+    private String ruolo= "STUDENTE"; // Valore di default 
 
     @Column()
-    private boolean iscritto;
+    private boolean iscritto= false; // Valore di default
     
     // ====GESTIONE CONCORRENZA ====//
     @Column()
     @jakarta.persistence.Version // indichiamo che questo campo rappresenta la versione dell'entità, utilizzato
-    private int versione; // per la gestione della concorrenza
+    private int versione = 0; // per la gestione della concorrenza
 
     // ====RELAZIONI====//
     // indichiamo che questa è una relazione ManyToOne, ovvero che molti studenti
@@ -105,5 +106,6 @@ public class Studente {
     // laurea può avere più studenti iscritti
     @JoinColumn(name = "id_corso_laurea")
     private CorsoLaurea corsoLaurea; 
+
 
 }

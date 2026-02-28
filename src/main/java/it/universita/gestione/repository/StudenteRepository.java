@@ -9,8 +9,7 @@ import it.universita.gestione.entity.Studente;
 // Cerca nell'entity ,la tabella studente, guarda l'etichetta id che deve essere di tipo long 
 // poi prepara i metodi 
 @Repository
-public interface StudRepository extends JpaRepository<Studente, Long> { 
-    
+public interface StudenteRepository extends JpaRepository<Studente, Long> {   
 }
 
 // ==================================(Operazioni CRUD Base):=======================================

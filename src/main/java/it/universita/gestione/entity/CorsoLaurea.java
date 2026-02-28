@@ -23,6 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class CorsoLaurea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +37,7 @@ public class CorsoLaurea {
     private Dipartimento dipartimento;
     
     @OneToMany(mappedBy = "corsoLaurea", fetch = FetchType.LAZY)
-    private Set<Insegnamento> insegnamenti = new HashSet<>();
+    private Set<Insegnamento> insegnamento = new HashSet<>();
 
     @OneToMany(mappedBy = "corsoLaurea", fetch = FetchType.LAZY)
     private Set<Studente> studenti = new HashSet<>();

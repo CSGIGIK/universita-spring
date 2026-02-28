@@ -47,7 +47,7 @@ public class Professore {
     private String password;
     // ====DATI ACCADEMICI====//
     @Column(length = 20)
-    private String ruolo;
+    private String ruolo= "PROFESSORE"; // Valore di default
 
     @Column()
     private LocalDateTime dataAssunzione;
