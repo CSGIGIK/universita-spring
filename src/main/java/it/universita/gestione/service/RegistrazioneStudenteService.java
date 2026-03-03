@@ -76,3 +76,17 @@ public class RegistrazioneStudenteService {
        //====FINE SERVIZIO====//
     }
 }
+
+
+/*======TEST=======*/
+/*curl -X POST http://localhost:8080/api/segreteria/registrazione-studente 
+-H "Content-Type: application/json" ^
+-d "{\"username\":\"gigi88\",\"email\":\"gigi.verdi@email.it\",\"password\":\"password123\",\"nome\":\"Luigi\",\"cognome\":\"Verdi\",\"telefono\":\"3331234567\",\"matricola\":\"123456\",\"codiceFiscale\":\"VRDLGU80A01H501Z\",\"dataNascita\":\"1998-05-20\",\"luogoNascita\":\"Cosenza\",\"idCorsoLaurea\":1}"
+//==== ESITO TEST ====//
+// L'architettura JOINED Inheritance funziona correttamente:
+// 1. Hibernate esegue una SELECT di verifica sul Corso di Laurea.
+// 2. Viene inserita una riga nella tabella 'utente' (credenziali e anagrafica base).
+// 3. Viene inserita una riga nella tabella 'studente' (dati accademici) usando lo STESSO ID generato dal padre.
+// I dati vengono smistati correttamente tra le tabelle.
+//====================//
+*/
