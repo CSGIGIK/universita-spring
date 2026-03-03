@@ -6,27 +6,32 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "professore")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Professore {
-
+public class Professore extends Utente {
+    /*
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+*/
+/* 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+*/
     // ====DATI ANAGRAFICI====//
-
+/* 
     @Column(length = 100)
     private String nome;
 
@@ -35,11 +40,12 @@ public class Professore {
 
     @Column(length = 100, unique = true)
     private String email;
+*/
 
     // ====DATI IDENTIFICATIVI====//
     @Column(length = 10, unique = true)
     private String matricola; // (DOC001, DOC002)
-
+/* 
     @Column(length = 50, unique = true)
     private String username;
     // ====DATI ACCESSO====//
@@ -48,7 +54,7 @@ public class Professore {
     // ====DATI ACCADEMICI====//
     @Column(length = 20)
     private String ruolo= "PROFESSORE"; // Valore di default
-
+*/
     @Column()
     private LocalDateTime dataAssunzione;
 
@@ -56,12 +62,13 @@ public class Professore {
     private String ruoloAccademico; // "Ordinario", "Associato", "Ricercatore"
 
     // ====CONTATTI====//
-
+/* 
     @Column(length = 20)
     private String telefono;
-
+*/
     @Column(length = 100)
     private String ufficio; // (es: "Aula 205")
+
 
     // ====RELAZIONI====//
     @OneToMany(mappedBy = "professore")
