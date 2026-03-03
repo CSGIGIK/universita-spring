@@ -29,7 +29,7 @@ public class CorsoLaurea {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100, unique = true)
+    @Column(length = 100, unique = true, nullable = false)
     private String nome;
 
     @ManyToOne(fetch = FetchType.LAZY)

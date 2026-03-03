@@ -12,6 +12,7 @@ import it.universita.gestione.repository.StudenteRepository;
 
 @Service
 public class RegistrazioneStudenteService {
+     // Iniettio i Repository
     @Autowired
     StudenteRepository studenteRepository;
     @Autowired
@@ -30,22 +31,30 @@ public class RegistrazioneStudenteService {
         studente.setDataNascita(dto.dataNascita());
         studente.setLuogoNascita(dto.luogoNascita());
         studente.setTelefono(dto.telefono());
+
         // La password deve essere encodata prima di essere salvata 
         // Importa: import org.springframework.security.crypto.bcrypt.BCrypt;
         // studente.setPassword(passwordEncoder.encode(dto.password()));
         studente.setPassword(dto.password()); // TODO: Encodare la password con BCrypt o simili
+
         // Recupera il corso di laurea associato usando l'ID fornito nel DTO
+        // Se il corso di laurea non viene trovato, lancia un'eccezione
         CorsoLaurea corso = corsoLaureaRepository.findById(dto.idCorsoLaurea())
                 .orElseThrow(() -> new RuntimeException("Corso di laurea non trovato con ID: " + dto.idCorsoLaurea()));
         studente.setCorsoLaurea(corso);
+
         //====FINE DTO REQUESTED====//
+
         //====REMPIO ENTITY====//
+
         studente.setDataIscrizione(java.time.LocalDateTime.now());
         studente.setIscritto(true); // Imposta lo studente come iscritto
         studente.setVersione(1); // Imposta la versione iniziale a 1
         studente.setRuolo("STUDENTE"); // Imposta il ruolo iniziale a "STUDENTE"
+        
         Studente studenteSalvato = studenteRepository.save(studente);
          //====FINE SALVATAGGIO====//
+
          //====PREPARO DTO DI RISPOSTA====//
         ResponseStudenteDto responseDto = new ResponseStudenteDto(
                 studenteSalvato.getMatricola(),
@@ -57,6 +66,8 @@ public class RegistrazioneStudenteService {
                 studenteSalvato.getDataNascita(),
                 studenteSalvato.getLuogoNascita(),
                 studenteSalvato.getTelefono(),
+                //Rispondiamo solo con il nome del corso di laurea, non con l'intero oggetto 
+                //perche contiene hashset di insegnamenti e studenti che porterebberoa a cicli infinito nella serializzazione JSON
                 studenteSalvato.getCorsoLaurea().getNome()
                  //====FINE DTO DI RISPOSTA====//
         );
