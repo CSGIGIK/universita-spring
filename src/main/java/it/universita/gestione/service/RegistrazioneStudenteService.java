@@ -1,6 +1,5 @@
 package it.universita.gestione.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.universita.gestione.dto.RequestStudenteDto;
@@ -12,14 +11,28 @@ import it.universita.gestione.repository.StudenteRepository;
 
 @Service
 public class RegistrazioneStudenteService {
-     // Iniettio i Repository
-    @Autowired
-    StudenteRepository studenteRepository;
-    @Autowired
-    CorsoLaureaRepository corsoLaureaRepository;
-//ci arriverà un DTO Request e noi ritorneremo un DTO di risposta
-    public ResponseStudenteDto registrazioneStudente(RequestStudenteDto dto) {
+     // Iniettio i Repository necessari per interagire con il database
+    private final StudenteRepository studenteRepository;
+    private final CorsoLaureaRepository corsoLaureaRepository;
+    private final UserHelper userHelper;
+    
+    public RegistrazioneStudenteService(StudenteRepository studenteRepository, 
+        CorsoLaureaRepository corsoLaureaRepository, 
+        UserHelper userHelper) {
 
+        this.studenteRepository = studenteRepository;
+        this.corsoLaureaRepository = corsoLaureaRepository;
+        this.userHelper = userHelper;
+
+    }
+    //ci arriverà un DTO Request e noi ritorneremo un DTO di risposta
+    public ResponseStudenteDto registrazioneStudente(RequestStudenteDto dto) {
+        if (userHelper.isUsernameTaken(dto.username())) {
+            throw new RuntimeException("Username già in uso: " + dto.username());
+        }
+        if (userHelper.isEmailTaken(dto.email())){
+            throw new RuntimeException("Email già in uso: " + dto.email());
+        }
 
         Studente studente = new Studente();
         studente.setMatricola(dto.matricola());
@@ -35,7 +48,8 @@ public class RegistrazioneStudenteService {
         // La password deve essere encodata prima di essere salvata 
         // Importa: import org.springframework.security.crypto.bcrypt.BCrypt;
         // studente.setPassword(passwordEncoder.encode(dto.password()));
-        studente.setPassword(dto.password()); // TODO: Encodare la password con BCrypt o simili
+        studente.setPassword(userHelper.encodePassword(dto.password()));
+        //studente.setPassword(dto.password()); // TODO: Encodare la password con BCrypt 
 
         // Recupera il corso di laurea associato usando l'ID fornito nel DTO
         // Se il corso di laurea non viene trovato, lancia un'eccezione
@@ -50,7 +64,7 @@ public class RegistrazioneStudenteService {
         studente.setDataIscrizione(java.time.LocalDateTime.now());
         studente.setIscritto(true); // Imposta lo studente come iscritto
         studente.setVersione(1); // Imposta la versione iniziale a 1
-        studente.setRuolo("STUDENTE"); // Imposta il ruolo iniziale a "STUDENTE"
+        studente.setRuolo("STUDENTE"); // Imposta il ruolo  a "STUDENTE"
         
         Studente studenteSalvato = studenteRepository.save(studente);
          //====FINE SALVATAGGIO====//
