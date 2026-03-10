@@ -13,7 +13,7 @@ import it.universita.gestione.service.RegistrazioneStudenteService;
 
 @RestController
 @RequestMapping("/api/segreteria")
-public class RegistrazioneStudenteController {
+public class RegistrazioneController {
         @Autowired
         private RegistrazioneStudenteService registrazioneService;
 
