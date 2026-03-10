@@ -10,6 +10,11 @@ import it.universita.gestione.entity.Studente;
 // poi prepara i metodi 
 @Repository
 public interface StudenteRepository extends JpaRepository<Studente, Long> {   
+   
+    boolean existsByMatricola(String matricola);
+    boolean existsByCodiceFiscale(String codiceFiscale);
+    boolean existsByEmail(String email);
+
 }
 
 // ==================================(Operazioni CRUD Base):=======================================
