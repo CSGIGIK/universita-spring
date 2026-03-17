@@ -13,7 +13,8 @@ public interface StudenteRepository extends JpaRepository<Studente, Long> {
    
     boolean existsByMatricola(String matricola);
     boolean existsByCodiceFiscale(String codiceFiscale);
-    boolean existsByEmail(String email);
+    
+    
 
 }
 

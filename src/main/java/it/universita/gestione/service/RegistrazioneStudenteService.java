@@ -1,6 +1,7 @@
 package it.universita.gestione.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.universita.gestione.dto.RequestStudenteDto;
 import it.universita.gestione.dto.ResponseStudenteDto;
@@ -26,13 +27,24 @@ public class RegistrazioneStudenteService {
 
     }
     //ci arriverà un DTO Request e noi ritorneremo un DTO di risposta
+    @Transactional // Importa: import org.springframework.transaction.annotation.Transactional;
     public ResponseStudenteDto registrazioneStudente(RequestStudenteDto dto) {
+        
         if (userHelper.isUsernameTaken(dto.username())) {
             throw new RuntimeException("Username già in uso: " + dto.username());
         }
         if (userHelper.isEmailTaken(dto.email())){
             throw new RuntimeException("Email già in uso: " + dto.email());
         }
+        if (studenteRepository.existsByMatricola(dto.matricola())) {
+            throw new RuntimeException("Matricola già in uso: " + dto.matricola());
+        }
+        if (studenteRepository.existsByCodiceFiscale(dto.codiceFiscale())) {
+            throw new RuntimeException("Codice fiscale già in uso: " + dto.codiceFiscale());
+        }
+            //====INIZIO SERVIZIO====//
+            //====MAPPATURA DTO-ENTITY====//
+
 
         Studente studente = new Studente();
         studente.setMatricola(dto.matricola());

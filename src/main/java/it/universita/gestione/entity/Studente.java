@@ -39,7 +39,7 @@ public class Studente extends Utente { // indichiamo che la classe Studente este
      * 
      */
     // ====DATI IDENTIFICATIVI====//
-    @Column(length = 6, unique = true)
+    @Column(length = 6, unique = true , nullable = false)
     // indichiamo che questo campo rappresenta la colonna "matricola" nella tabella
     // del database, con una lunghezza massima di 6 caratteri e un vincolo di
     // unicità
