@@ -22,32 +22,32 @@ public interface StudenteRepository extends JpaRepository<Studente, Long> {
 // 1. SALVATAGGIO / AGGIORNAMENTO
 // repository.save(studente); 
 // Funzionamento: Se l'oggetto non ha un ID, fa una "INSERT". 
-// Se ha già un ID, fa una "UPDATE" su quella riga. [1.2]
+// Se ha già un ID, fa una "UPDATE" su quella riga. 
 
 // 2. RICERCA PER CHIAVE PRIMARIA
 // Optional<Studente> s = repository.findById(1L);
 // Funzionamento: Cerca nella colonna @Id. Restituisce un 'Optional' 
-// per evitare errori se lo studente non esiste (evita il NullPointerException). [1.1]
+// per evitare errori se lo studente non esiste (evita il NullPointerException). 
 
 // 3. RECUPERO TUTTI I DATI
 // List<Studente> lista = repository.findAll();
 // Funzionamento: Esegue una "SELECT * FROM studente" e trasforma 
-// ogni riga del database in un oggetto Java della classe Studente. [1.2]
+// ogni riga del database in un oggetto Java della classe Studente. 
 
 // 4. ELIMINAZIONE
 // repository.deleteById(1L);
-// Funzionamento: Cerca la riga con quell'ID e la cancella (DELETE). [1.2]
+// Funzionamento: Cerca la riga con quell'ID e la cancella (DELETE). 
 
 
 // =======================================METODI EXTRA======================================= 
 
 // 5. CONTEGGIO
 // long totale = repository.count();
-// Funzionamento: Restituisce il numero totale di righe (SELECT COUNT(*)). [1.2]
+// Funzionamento: Restituisce il numero totale di righe (SELECT COUNT(*)). 
 
 // 6. VERIFICA ESISTENZA
 // boolean esiste = repository.existsById(1L);
-// Funzionamento: Ti dice 'true' o 'false' senza dover scaricare tutti i dati. [1.1]
+// Funzionamento: Ti dice 'true' o 'false' senza dover scaricare tutti i dati. 
 
 // 7. SALVATAGGIO MULTIPLO (BATCH)
 // repository.saveAll(listaStudenti);

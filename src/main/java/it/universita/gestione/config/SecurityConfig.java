@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.User; //test
+//import org.springframework.security.core.userdetails.UserDetails; //test
+//import org.springframework.security.core.userdetails.UserDetailsService; //test
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+//import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 // useremo dei bean che non sono altro che componenti gestiti da Spring
@@ -28,7 +28,10 @@ public class SecurityConfig {
 
     // Possiamo aggiungere altre configurazioni di sicurezza qui, come la configurazione delle autorizzazioni,
     // Creiamo utente test sara un operatore della segreteria con username "test" e password "test123" (che sarà encodata)
-    @Bean 
+ 
+
+        //====operatore segreteria in memoria per testare la sicurezza====
+    /*    @Bean 
     public UserDetailsService operatoreTest(PasswordEncoder passwordEncoder){ // UserDetailsService è un'interfaccia che fornisce un metodo per caricare i dettagli dell'utente in base al nome utente
       UserDetails  operatore = User.builder().username("gigi")
                 .password(passwordEncoder.encode("test123"))
@@ -36,6 +39,9 @@ public class SecurityConfig {
                 .build(); // Costruisce un oggetto UserDetails con le informazioni dell'utente
         return new InMemoryUserDetailsManager(operatore);// Crea un UserDetailsService in memoria che contiene l'utente definito sopra
     }
+    */
+        //=====test concluso=====
+
 
     // Che autorizzazioni vogliamo dare agli utenti?
     // l'operatore segreteria per il momento avra accesso a tutte le risorse di ("/api/segreteria/**")
@@ -45,7 +51,7 @@ public class SecurityConfig {
             .requestMatchers("/api/segreteria/**").hasRole("SEGRETERIA") // Solo gli utenti con il ruolo "SEGRETERIA" possono accedere alle risorse che corrispondono al pattern "/api/segreteria/**"
             .anyRequest().authenticated()).httpBasic(Customizer.withDefaults()).csrf(csrf -> csrf.disable()); 
             // Su siti web con form          
-            return http.build();
+            return http.build(); 
 
     }
 
