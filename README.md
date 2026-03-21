@@ -27,33 +27,41 @@ C:\Users\gigi\Desktop\universita-spring
 ├── src/
 │   ├── main/
 │   │   ├── java/it/universita/gestione/
-│   │   │   ├── DemoApplication.java
-│   │   │   ├── controller/         # REST Controller
-│   │   │   │   ├── RegistrazioneStudenteController.java
-│   │   │   │   ├── Registrazione.java
-│   │   │   │   └── prova.java
-│   │   │   ├── dto/                # Data Transfer Objects
-│   │   │   │   ├── RequestStudenteDto.java
-│   │   │   │   └── ResponseStudenteDto.java
-│   │   │   ├── entity/             # Entità JPA
-│   │   │   │   ├── CorsoLaurea.java
-│   │   │   │   ├── Dipartimento.java
-│   │   │   │   ├── Insegnamento.java
-│   │   │   │   ├── OperatoreSegreteria.java
-│   │   │   │   ├── Professore.java
-│   │   │   │   └── Studente.java
-│   │   │   ├── repository/         # Repository (Data Access)
-│   │   │   │   ├── CorsoLaureaRepository.java
-│   │   │   │   └── StudenteRepository.java
-│   │   │   └── service/            # Logica di business
-│   │   │       └── RegistrazioneStudenteService.java
+│   │   │   ├── DemoApplication.java          # Entry point Spring Boot
+│   │   │   ├── config/                       # Configurazione
+│   │   │   │   ├── SecurityConfig.java       # Config Spring Security & BCrypt
+│   │   │   │   └── DataInitializer.java      # Seed utente admin all'avvio
+│   │   │   ├── controller/                   # REST Controller
+│   │   │   │   ├── RegistrazioneController.java  # POST registrazione studente
+│   │   │   │   ├── Registrazione.java        # GET form Thymeleaf
+│   │   │   │   └── prova.java                # Controller di test (homepage)
+│   │   │   ├── dto/                          # Data Transfer Objects
+│   │   │   │   ├── RequestStudenteDto.java   # DTO input registrazione
+│   │   │   │   └── ResponseStudenteDto.java  # DTO output registrazione
+│   │   │   ├── entity/                       # Entità JPA
+│   │   │   │   ├── Utente.java               # Super-class (JOINED inheritance)
+│   │   │   │   ├── Studente.java             # extends Utente
+│   │   │   │   ├── Professore.java           # extends Utente
+│   │   │   │   ├── OperatoreSegreteria.java  # extends Utente
+│   │   │   │   ├── CorsoLaurea.java          # Corso di laurea
+│   │   │   │   ├── Insegnamento.java         # Materia/insegnamento
+│   │   │   │   └── Dipartimento.java         # Dipartimento
+│   │   │   ├── repository/                   # Repository (Data Access)
+│   │   │   │   ├── UtenteRepository.java     # CRUD + query su Utente
+│   │   │   │   ├── StudenteRepository.java   # CRUD + query su Studente
+│   │   │   │   └── CorsoLaureaRepository.java# CRUD su CorsoLaurea
+│   │   │   ├── security/                     # Sicurezza
+│   │   │   │   └── CustomUserDetailsService.java # Auth da database
+│   │   │   └── service/                      # Logica di business
+│   │   │       ├── RegistrazioneStudenteService.java
+│   │   │       └── UserHelper.java           # Password encoding & validazioni
 │   │   └── resources/
-│   │       ├── application.properties
-│   │       ├── static/
-│   │       └── templates/
+│   │       ├── application.properties        # Config DB, JPA, Security
+│   │       ├── static/                       # CSS, JS, immagini
+│   │       └── templates/                    # Template Thymeleaf
 │   └── test/
 │       └── java/
-└── build/                          # Output della build
+└── build/                                    # Output della build
 ```
 
 ## Setup Guide
@@ -93,12 +101,12 @@ spring.datasource.username=root
 spring.datasource.password=Root
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.jpa.hibernate.ddl-auto=update
-spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 ```
 
 - **MySQL:** UniversitaOfficial (localhost:3306)
 - **JPA/Hibernate:** ddl-auto=update (sviluppo)
-- **Dialect:** MySQL8Dialect (compatibile 8.0+)
+- **Dialect:** MySQLDialect (universale, compatibile MySQL 5.7/8.0+)
 
 ## Architettura del Progetto
 Il progetto segue l'architettura **MVC (Model-View-Controller)** con layer di servizio:
@@ -953,6 +961,7 @@ compileOnly 'org.projectlombok:lombok:1.18.30'
 
 ---
 
-**Data Ultimo Aggiornamento:** 17 Marzo 2026  
+**Data Ultimo Aggiornamento:** 21 Marzo 2026  
 **Versione Progetto:** 0.0.2-SNAPSHOT  
-**Stato:** 🟢 In Sviluppo Attivo (Security ✅, Architecture ✅, Database Auth ✅)
+**Stato:** 🟢 In Sviluppo Attivo (Security ✅, Architecture ✅, Database Auth ✅)  
+**Totale Classi Java:** 21 (7 entity, 3 controller, 3 repository, 2 service, 2 dto, 2 config, 1 security, 1 main)
