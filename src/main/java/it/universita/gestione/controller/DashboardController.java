@@ -12,7 +12,7 @@ public class DashboardController {
     
     @GetMapping("/dashboard/segreteria")
     public String dashboardSegreteria() {
-        return "dashboard-segreteria"; // Thymeleaf cerca templates/dashboard-segreteria.html
+        return "dashboard"; // Thymeleaf cerca templates/dashboard-segreteria.html
     }
 }
 
