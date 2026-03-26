@@ -1,13 +1,25 @@
 package it.universita.gestione.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import it.universita.gestione.repository.CorsoLaureaRepository;
 
 @Controller
 public class Registrazione {
-    @GetMapping("/registrazione")
-        public String mostraFormRegistrazione() {
-        return "registrazione"; // Ritorna il nome della vista per la registrazione
+
+    private final CorsoLaureaRepository corsoLaurea;
+    public Registrazione(CorsoLaureaRepository corsoLaurea) {
+        this.corsoLaurea = corsoLaurea;
     }
+
+
+    @GetMapping("/registrazione")
+    public String mostraFormRegistrazione(Model model) {  
+    model.addAttribute("corsi", corsoLaurea.findAll());  
+    return "registrazione";
+
     
+}
 }
