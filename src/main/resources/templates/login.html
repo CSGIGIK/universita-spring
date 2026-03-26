@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Segreteria - Università</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+    <!-- 
+    SPIEGAZIONE:
+    Questa è la pagina di login per gli operatori di segreteria.
+    Solo chi ha credenziali valide (username + password) può accedere.
+    
+    Il form invia i dati a /login (endpoint gestito automaticamente da Spring Security)
+    Spring Security intercetta il POST e verifica le credenziali.
+    -->
+    
+    <div class="login-container">
+        <!-- Logo/Header -->
+        <div class="login-header">
+            <h1>🔐 Sistema Gestione Università</h1>
+            <p>Accesso Segreteria</p>
+        </div>
+
+        <!-- Form di Login -->
+        <div class="login-box">
+            <!-- 
+            FORM LOGIN:
+            - method="post" → Invia i dati al backend con POST
+            - th:action="@{/login}" → Spring Security gestisce automaticamente /login
+            - Nota: NON usiamo /api/auth/login perché Spring Security ha un endpoint built-in per form login
+            -->
+            <form method="post" th:action="@{/login}">
+                <!-- 
+                CSRF TOKEN:
+                Thymeleaf genera automaticamente un token CSRF per proteggere il form.
+                Questo previene attacchi Cross-Site Request Forgery.
+                Se non c'è, Spring Security rifiuta il POST!
+                -->
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                <!-- Campo Username -->
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <!-- 
+                    IMPORTANTE:
+                    - name="username" → Spring Security cerca esattamente questo nome
+                    - NON puoi cambiarlo a "user" o "utente", deve essere "username"
+                    -->
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Inserisci il tuo username"
+                        required
+                        autofocus>
+                </div>
+
+                <!-- Campo Password -->
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <!-- 
+                    IMPORTANTE:
+                    - name="password" → Spring Security cerca esattamente questo nome
+                    - type="password" → Nasconde i caratteri digitati per sicurezza
+                    -->
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Inserisci la tua password"
+                        required>
+                </div>
+
+                <!-- Messaggio di Errore (se login fallisce) -->
+                <!-- 
+                SPIEGAZIONE:
+                Se il login fallisce, Spring reindirizza a /login?error
+                Thymeleaf riconosce il parametro ?error e mostra questo messaggio
+                -->
+                <div th:if="${param.error}" class="error-message">
+                    ❌ Username o password non validi. Riprova.
+                </div>
+
+                <!-- Messaggio di Logout (se utente fa logout) -->
+                <!-- 
+                Se l'utente fa logout, reindirizza a /login?logout
+                Questo messaggio conferma che è stato disconnesso
+                -->
+                <div th:if="${param.logout}" class="success-message">
+                    ✅ Sei stato disconnesso correttamente.
+                </div>
+
+                <!-- Pulsante di Login -->
+                <button type="submit" class="login-btn">
+                    Accedi
+                </button>
+            </form>
+
+            <!-- Informazioni di Debug (solo per testing - RIMUOVERE in produzione!) -->
+            <div class="debug-info">
+                <p><strong>🧪 Credenziali di Test:</strong></p>
+                <p>Username: <code>admin</code></p>
+                <p>Password: <code>admin123</code></p>
+                <p style="color: red; font-size: 12px;">⚠️ Rimuovere prima di mettere in produzione!</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 Università. Sistema di Gestione Interno.</p>
+        </footer>
+    </div>
+</body>
+</html>

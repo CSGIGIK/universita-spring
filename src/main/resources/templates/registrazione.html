@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrazione Studente - Università</title>
+    <link rel="stylesheet" th:href="@{/css/registrazione.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Registrazione Studente</h1>
+        <p class="header-info">Compila il modulo sottostante per registrarti al sistema universitario</p>
+        
+        <!-- FORM CON THYMELEAF -->
+        <form th:action="@{/api/segreteria/registrazione-studente}" method="post">
+            
+            <!-- SEZIONE: DATI IDENTIFICATIVI -->
+            <fieldset>
+                <legend>📋 Dati Identificativi</legend>
+                
+                <div class="form-group">
+                    <label for="matricola">Matricola:</label>
+                    <input type="text" id="matricola" name="matricola" placeholder="Esempio: S123456" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="codiceFiscale">Codice Fiscale:</label>
+                    <input type="text" id="codiceFiscale" name="codiceFiscale" placeholder="Esempio: RSSMRA80A01H501T" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="esempio@universita.it" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" placeholder="Scegli il tuo username" required>
+                </div>
+            </fieldset>
+            
+            <!-- SEZIONE: DATI ANAGRAFICI -->
+            <fieldset>
+                <legend>👤 Dati Anagrafici</legend>
+                
+                <div class="form-group">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" placeholder="Il tuo nome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cognome">Cognome:</label>
+                    <input type="text" id="cognome" name="cognome" placeholder="Il tuo cognome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dataNascita">Data di Nascita:</label>
+                    <input type="date" id="dataNascita" name="dataNascita" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="luogoNascita">Luogo di Nascita:</label>
+                    <input type="text" id="luogoNascita" name="luogoNascita" placeholder="Città, Provincia" required>
+                </div>
+            </fieldset>
+            
+            <!-- SEZIONE: CONTATTI E CREDENZIALI -->
+            <fieldset>
+                <legend>🔐 Contatti e Credenziali</legend>
+                
+                <div class="form-group">
+                    <label for="telefono">Telefono:</label>
+                    <input type="tel" id="telefono" name="telefono" placeholder="Numero di telefono (opzionale)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Almeno 8 caratteri" required>
+                </div>
+            </fieldset>
+            
+            <!-- SEZIONE: CORSO DI LAUREA -->
+            <fieldset>
+                <legend>🎓 Corso di Laurea</legend>
+                
+                <div class="form-group">
+                    <label for="idCorsoLaurea">Scegli il tuo corso:</label>
+                    <select id="idCorsoLaurea" name="idCorsoLaurea" required>
+                        <option value="">-- Seleziona un corso --</option>
+                        <option value="1">Informatica</option>
+                        <option value="2">Ingegneria Civile</option>
+                        <option value="3">Scienze Biologiche</option>
+                        <option value="4">Economia e Commercio</option>
+                        <option value="5">Lettere e Filosofia</option>
+                    </select>
+                </div>
+            </fieldset>
+            
+            <!-- PULSANTI -->
+            <div class="button-group">
+                <button type="submit" class="submit-btn">✓ Registrati</button>
+                <button type="reset" class="reset-btn">↻ Cancella</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

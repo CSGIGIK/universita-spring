@@ -25,7 +25,7 @@ public DataInitializer(UtenteRepository utenteRepository, PasswordEncoder passwo
             // 2. Se non esiste, creiamo il primo operatore
             OperatoreSegreteria admin = new OperatoreSegreteria();
             admin.setUsername("admin");
-            admin.setPassword(passwordEncoder.encode("admin123")); // Fondamentale criptarla!
+            admin.setPassword(passwordEncoder.encode("admin123")); 
             admin.setEmail("admin@universita.it");
             admin.setNome("Admin");
             admin.setCognome("Sistema");

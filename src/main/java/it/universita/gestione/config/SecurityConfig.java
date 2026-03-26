@@ -7,12 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.core.userdetails.User; //test
-//import org.springframework.security.core.userdetails.UserDetails; //test
-//import org.springframework.security.core.userdetails.UserDetailsService; //test
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 // useremo dei bean che non sono altro che componenti gestiti da Spring
@@ -20,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration // Indica a Spring che questa classe contiene definizioni di bean e configurazioni
 @EnableWebSecurity // Abilita la sicurezza web di Spring Security
+
 public class SecurityConfig {
     @Bean //Crea questo oggetto e lo rende disponibile per l'iniezione in altre parti dell'applicazione
     public PasswordEncoder passwordEncoder() {
@@ -43,16 +40,73 @@ public class SecurityConfig {
         //=====test concluso=====
 
 
-    // Che autorizzazioni vogliamo dare agli utenti?
-    // l'operatore segreteria per il momento avra accesso a tutte le risorse di ("/api/segreteria/**")
+    // ============================================
+    // CONFIGURAZIONE DI SICUREZZA PRINCIPALE
+    // ============================================
+    // Questa configurazione definisce QUALI endpoint sono pubblici
+    // QUALI richiedono login, e COME funziona l'autenticazione
     @Bean 
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{ // SecurityFilterChain gestisce la sicurezza delle richieste HTTP chi puo fare cosa?
-        http.authorizeHttpRequests(autorizzazione -> autorizzazione // Configura le regole di autorizzazione per le richieste HTTP
-            .requestMatchers("/api/segreteria/**").hasRole("SEGRETERIA") // Solo gli utenti con il ruolo "SEGRETERIA" possono accedere alle risorse che corrispondono al pattern "/api/segreteria/**"
-            .anyRequest().authenticated()).httpBasic(Customizer.withDefaults()).csrf(csrf -> csrf.disable()); 
-            // Su siti web con form          
-            return http.build(); 
-
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        
+        // 1. AUTORIZZAZIONE - Chi può accedere a cosa?
+        http.authorizeHttpRequests(autorizzazione -> autorizzazione
+            // ✅ /login e /css/** sono PUBBLICI (non richiedono login)
+            .requestMatchers("/login", "/css/**", "/", "/registrazione").permitAll()
+            
+            // 🔐 /dashboard/segreteria richiede il ruolo SEGRETERIA
+            .requestMatchers("/dashboard/segreteria/**").hasRole("SEGRETERIA")
+            
+            // 🔐 /api/segreteria/** richiede il ruolo SEGRETERIA
+            .requestMatchers("/api/segreteria/**").hasRole("SEGRETERIA")
+            
+            // 🔐 Tutto il resto richiede autenticazione
+            .anyRequest().authenticated()
+        );
+        
+        // 2. FORM LOGIN - Come funziona il login?
+        // Nota: Nel nostro caso usiamo FORM LOGIN (non HTTP Basic Auth)
+        http.formLogin(form -> form
+            // Pagina di login: GET /login mostra il form
+            .loginPage("/login")
+            
+            // Dove il form invia i dati: POST /login
+            // Spring Security gestisce AUTOMATICAMENTE questo endpoint!
+            // Non dobbiamo creare un controller per POST /login
+            .loginProcessingUrl("/login")
+            
+            // Dove reindirizzare dopo login RIUSCITO
+            // Se utente accede direttamente a /login, dopo il login lo manda qui
+            .defaultSuccessUrl("/dashboard/segreteria", true)
+            
+            // Username e password field names
+            .usernameParameter("username")
+            .passwordParameter("password")
+        );
+        
+        // 3. LOGOUT - Come gestire la disconnessione?
+        http.logout(logout -> logout
+            // URL per fare logout: GET /logout o POST /logout
+            .logoutUrl("/logout")
+            
+            // Dove reindirizzare dopo logout
+            .logoutSuccessUrl("/login?logout")
+            
+            // Invalida la sessione
+            .invalidateHttpSession(true)
+        );
+        
+        // 4. CSRF PROTECTION - Protezione da attacchi Cross-Site Request Forgery
+        // IMPORTANTE: Ora è ABILITATO (prima era disabilitato!)
+        // Thymeleaf aggiungerà automaticamente il token CSRF nei form
+        http.csrf(Customizer.withDefaults());
+        
+        // 5. ACCESS DENIED
+        http.exceptionHandling(exception -> exception
+            // Se utente non autorizzato: GET /login
+            .accessDeniedPage("/login")
+        );
+        
+        return http.build();
     }
 
     

@@ -1,6 +1,6 @@
 package it.universita.gestione.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,8 +14,11 @@ import it.universita.gestione.service.RegistrazioneStudenteService;
 @RestController
 @RequestMapping("/api/segreteria")
 public class RegistrazioneController {
-        @Autowired
-        private RegistrazioneStudenteService registrazioneService;
+       private final RegistrazioneStudenteService registrazioneService;
+
+        public RegistrazioneController(RegistrazioneStudenteService service) {
+        this.registrazioneService = service;
+        }
 
         @PostMapping("/registrazione-studente")
         public ResponseEntity<?> registraStudente(@RequestBody RequestStudenteDto studenteDto) {

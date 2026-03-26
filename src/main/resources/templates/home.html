@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Università</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+    <div class="navbar">
+        <div class="container-nav">
+            <h1>🎓 Sistema Universitario</h1>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/registrazione">Registrazione Studenti</a>
+                <a href="/info">Info</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h2>Benvenuto nel Sistema di Gestione Universitario</h2>
+        <p>Piattaforma completa per la gestione di studenti, corsi e docenti</p>
+        <button onclick="window.location.href='/registrazione'">Registrati ora</button>
+    </div>
+
+    <div class="features">
+        <div class="feature-card">
+            <h3>📚 Gestione Corsi</h3>
+            <p>Accedi ai tuoi corsi e ai materiali didattici</p>
+        </div>
+        <div class="feature-card">
+            <h3>📋 Registrazione</h3>
+            <p>Registrati come studente con pochi semplici passi</p>
+        </div>
+        <div class="feature-card">
+            <h3>👨‍💼 Amministrazione</h3>
+            <p>Pannello per gli operatori di segreteria</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Università. Tutti i diritti riservati.</p>
+    </footer>
+</body>
+</html>
