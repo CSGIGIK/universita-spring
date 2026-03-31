@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * 7. Se Fallisce → reindirizza back a /login?error
  */
 @Controller
-public class AuthController {
+public class Login{
     
     /**
      * Mostra la pagina di login.

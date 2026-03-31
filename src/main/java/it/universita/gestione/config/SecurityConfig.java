@@ -50,16 +50,16 @@ public class SecurityConfig {
         
         // 1. AUTORIZZAZIONE - Chi può accedere a cosa?
         http.authorizeHttpRequests(autorizzazione -> autorizzazione
-            // ✅ /login e /css/** sono PUBBLICI (non richiedono login)
+            //  /login e /css/** sono PUBBLICI (non richiedono login)
             .requestMatchers("/login", "/css/**", "/", "/registrazione").permitAll()
             
-            // 🔐 /dashboard/segreteria richiede il ruolo SEGRETERIA
+            //  /dashboard/segreteria richiede il ruolo SEGRETERIA
             .requestMatchers("/dashboard/segreteria/**").hasRole("SEGRETERIA")
             
-            // 🔐 /api/segreteria/** richiede il ruolo SEGRETERIA
+            //  /api/segreteria/** richiede il ruolo SEGRETERIA
             .requestMatchers("/api/segreteria/**").hasRole("SEGRETERIA")
             
-            // 🔐 Tutto il resto richiede autenticazione
+            //  Tutto il resto richiede autenticazione
             .anyRequest().authenticated()
         );
         
@@ -96,13 +96,13 @@ public class SecurityConfig {
         );
         
         // 4. CSRF PROTECTION - Protezione da attacchi Cross-Site Request Forgery
-        // IMPORTANTE: Ora è ABILITATO (prima era disabilitato!)
-        // Thymeleaf aggiungerà automaticamente il token CSRF nei form
+        //  Ora è ABILITATO 
+        // Thymeleaf aggiungerà automaticamente il token CSRF nei form 
         http.csrf(Customizer.withDefaults());
         
         // 5. ACCESS DENIED
         http.exceptionHandling(exception -> exception
-            // Se utente non autorizzato: GET /login
+            // Se utente non autorizzato: GET /login 
             .accessDeniedPage("/login")
         );
         

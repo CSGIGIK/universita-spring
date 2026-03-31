@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * Accessibile solo agli utenti con ruolo SEGRETERIA.
  */
 @Controller
-public class DashboardController {
+public class Dashboard {
     
     @GetMapping("/dashboard/segreteria")
     public String dashboardSegreteria() {
