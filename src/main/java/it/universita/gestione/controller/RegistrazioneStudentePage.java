@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import it.universita.gestione.repository.CorsoLaureaRepository;
 
 @Controller
-public class Registrazione {
+public class RegistrazioneStudentePage {
 
     private final CorsoLaureaRepository corsoLaurea;
-    public Registrazione(CorsoLaureaRepository corsoLaurea) {
+    public RegistrazioneStudentePage(CorsoLaureaRepository corsoLaurea) {
         this.corsoLaurea = corsoLaurea;
     }
 

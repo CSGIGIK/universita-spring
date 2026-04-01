@@ -24,92 +24,91 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Studente extends Utente { // indichiamo che la classe Studente estende la classe Utente, ereditando i suoi
-                                       // campi e metodi
-    /*
-     * @Id // indichiamo che questo campo rappresenta la chiave primaria della
-     * tabella
-     * 
-     * @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incremento del
-     * campo id, il valore sarà generato
-     * // automaticamente dal database
-     * private Long id; // definiamo un campo id di tipo Long che rappresenta
-     * l'identificatore univoco
-     * // dello studente
-     * 
-     */
+public class Studente extends Utente {
     // ====DATI IDENTIFICATIVI====//
-    @Column(length = 6, unique = true , nullable = false)
-    // indichiamo che questo campo rappresenta la colonna "matricola" nella tabella
-    // del database, con una lunghezza massima di 6 caratteri e un vincolo di
-    // unicità
-    private String matricola; // definiamo un campo matricola di tipo String che rappresenta la matricola
-                              // dello studente
+    @Column(length = 6, unique = true, nullable = false)
+    private String matricola;
+
     @Column(length = 16, unique = true, nullable = false)
     private String codiceFiscale;
-    /*
-     * @Column(length = 100, unique = true)
-     * private String email;
-     * 
-     * @Column(length = 50, unique = true)
-     * private String username;
-     */
+
     // ====DATI ANAGRAFICI====//
-    /*
-     * @Column(length = 100)
-     * private String nome;
-     * 
-     * @Column(length = 100)
-     * private String cognome;
-     */
     @Column()
     private java.time.LocalDate dataNascita;
 
     @Column(length = 100)
     private String luogoNascita;
 
-    // ====CONTTATTI====//
+    // ====STATO E TIMESTAMP====//
+    @Column()
+    private LocalDateTime dataIscrizione;
+
+    @Column()
+    private boolean iscritto = false;
+
+    // ====RELAZIONI====//
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_corso_laurea")
+    private CorsoLaurea corsoLaurea;
+
+    // ============================================================================
+    // CODICE RIMPIAZZATO - TESTIMONIANZA DI STUDIO
+    // I seguenti campi erano mappati direttamente in Studente ma sono stati
+    // spostati nella classe base Utente per evitare duplicazione tra Studente,
+    // Professore e OperatoreSegreteria -> Pattern: JOINED Inheritance
+    // ============================================================================
+
     /*
-     * @Column(length = 20)
-     * private String telefono;
+     * CHIAVE PRIMARIA - Rimossa (ereditata da Utente):
      * 
-     * // ====CREDENZIALI====//
+     * @Id
+     * @GeneratedValue(strategy = GenerationType.IDENTITY)
+     * private Long id;
+     */
+
+    /*
+     * DATI ANAGRAFICI - Spostati in Utente:
+     * 
+     * @Column(length = 100)
+     * private String nome;
+     * 
+     * @Column(length = 100)
+     * private String cognome;
+     * 
+     * @Column(length = 100, unique = true)
+     * private String email;
+     */
+
+    /*
+     * DATI ACCESSO - Spostati in Utente:
+     * 
+     * @Column(length = 50, unique = true)
+     * private String username;
      * 
      * @Column(length = 255)
      * private String password;
      */
-    // ====STATO E TIMESTAMP====//
 
-    // timestamp LocaldDateTime per indicare la data e l'ora di iscrizione dello
-    // studente non serve specificare
-    /* 
-    @Column()
-    private LocalDateTime dataIscrizione;
-    */
     /*
+     * CONTATTI - Spostati in Utente:
+     * 
      * @Column(length = 20)
-     * private String ruolo= "STUDENTE"; // Valore di default
+     * private String telefono;
      */
-     @Column()
-    private LocalDateTime dataIscrizione;
-    
-    @Column()
-    private boolean iscritto = false; // Valore di default
 
-    // ====GESTIONE CONCORRENZA ====//
-   /* 
-    @Column()
-    @jakarta.persistence.Version // indichiamo che questo campo rappresenta la versione dell'entità, utilizzato
-    private int versione = 0; // per la gestione della concorrenza
-    */
-    // ====RELAZIONI====//
-    // indichiamo che questa è una relazione ManyToOne, ovvero che molti studenti
-    // possono essere iscritti a un solo corso di laurea
-    @ManyToOne(fetch = FetchType.LAZY)
-    // definiamo una relazione ManyToOne con la classe CorsoLaurea, indicando che
-    // ogni studente è iscritto a un solo corso di laurea, ma un corso di
-    // laurea può avere più studenti iscritti
-    @JoinColumn(name = "id_corso_laurea")
-    private CorsoLaurea corsoLaurea;
+    /*
+     * RUOLO - Spostato in Utente (con valore di default "STUDENTE"):
+     * 
+     * @Column(length = 20)
+     * private String ruolo = "STUDENTE";
+     */
+
+    /*
+     * GESTIONE CONCORRENZA - Spostata in Utente:
+     * 
+     * @Column()
+     * @jakarta.persistence.Version
+     * private int versione = 0;
+     */
 
 }

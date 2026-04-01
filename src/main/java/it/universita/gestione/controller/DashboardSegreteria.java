@@ -8,11 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
  * Accessibile solo agli utenti con ruolo SEGRETERIA.
  */
 @Controller
-public class Dashboard {
+public class DashboardSegreteria {
     
     @GetMapping("/dashboard/segreteria")
     public String dashboardSegreteria() {
         return "dashboard"; // Thymeleaf cerca templates/dashboard-segreteria.html
     }
 }
-

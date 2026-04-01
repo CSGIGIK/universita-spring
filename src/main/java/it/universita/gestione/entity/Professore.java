@@ -20,57 +20,70 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Professore extends Utente {
-    /*
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-*/
-/* 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-*/
-    // ====DATI ANAGRAFICI====//
-/* 
-    @Column(length = 100)
-    private String nome;
-
-    @Column(length = 100)
-    private String cognome;
-
-    @Column(length = 100, unique = true)
-    private String email;
-*/
-
     // ====DATI IDENTIFICATIVI====//
     @Column(length = 10, unique = true)
-    private String matricola; // (DOC001, DOC002)
-/* 
-    @Column(length = 50, unique = true)
-    private String username;
-    // ====DATI ACCESSO====//
-    @Column(length = 255)
-    private String password;
+    private String matricola;
+
     // ====DATI ACCADEMICI====//
-    @Column(length = 20)
-    private String ruolo= "PROFESSORE"; // Valore di default
-*/
     @Column()
     private LocalDateTime dataAssunzione;
 
     @Column(length = 50)
-    private String ruoloAccademico; // "Ordinario", "Associato", "Ricercatore"
+    private String ruoloAccademico;
 
     // ====CONTATTI====//
-/* 
-    @Column(length = 20)
-    private String telefono;
-*/
     @Column(length = 100)
-    private String ufficio; // (es: "Aula 205")
-
+    private String ufficio;
 
     // ====RELAZIONI====//
     @OneToMany(mappedBy = "professore")
     private Set<Insegnamento> insegnamenti = new HashSet<>();
+
+    // ============================================================================
+    // CODICE RIMPIAZZATO - TESTIMONIANZA DI STUDIO
+    // I seguenti campi erano mappati direttamente in Professore ma sono stati
+    // spostati nella classe base Utente per evitare duplicazione tra Studente,
+    // Professore e OperatoreSegreteria -> Pattern: JOINED Inheritance
+    // ============================================================================
+
+    /*
+     * CHIAVE PRIMARIA - Rimossa (ereditata da Utente):
+     * 
+     * @Id
+     * @GeneratedValue(strategy = GenerationType.IDENTITY)
+     * private Long id;
+     */
+
+    /*
+     * DATI ANAGRAFICI - Spostati in Utente:
+     * 
+     * @Column(length = 100)
+     * private String nome;
+     * 
+     * @Column(length = 100)
+     * private String cognome;
+     * 
+     * @Column(length = 100, unique = true)
+     * private String email;
+     */
+
+    /*
+     * DATI ACCESSO - Spostati in Utente:
+     * 
+     * @Column(length = 50, unique = true)
+     * private String username;
+     * 
+     * @Column(length = 255)
+     * private String password;
+     * 
+     * @Column(length = 20)
+     * private String ruolo = "PROFESSORE";
+     */
+
+    /*
+     * CONTATTI - Spostati in Utente:
+     * 
+     * @Column(length = 20)
+     * private String telefono;
+     */
 }
